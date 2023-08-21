@@ -1,66 +1,46 @@
 #include <stdio.h>
-#include <stdbool.h>
 
-#define MAX_VERTICES 100
+#define MAX 100
 
-int adjacencyMatrix[MAX_VERTICES][MAX_VERTICES];
-bool visited[MAX_VERTICES];
-int vertices, edges;
+int queue[MAX], visited[MAX];
+int adj[MAX][MAX];
+int n, front = -1, rear = -1;
 
-void bfs(int startVertex) {
-    bool queue[MAX_VERTICES] = {false};
-    int front = 0, rear = 0;
-    queue[rear] = startVertex;
-    visited[startVertex] = true;
-
+// BFS algorithm
+void bfs(int start) {
+    int i, j;
     printf("BFS Traversal: ");
+    visited[start] = 1;
+    queue[++rear] = start;
 
-    while (front <= rear) {
-        int currentVertex = queue[front];
-        printf("%d ", currentVertex);
-        front++;
+    while (front != rear) {
+        i = queue[++front];
+        printf("%d ", i);
 
-        for (int i = 0; i < vertices; i++) {
-            if (adjacencyMatrix[currentVertex][i] == 1 && !visited[i]) {
-                queue[++rear] = i;
-                visited[i] = true;
+        for (j = 1; j <= n; j++) {
+            if (adj[i][j] && !visited[j]) {
+                visited[j] = 1;
+                queue[++rear] = j;
             }
         }
     }
+    printf("\n");
 }
 
 int main() {
-    printf("Enter the number of vertices and edges: ");
-    scanf("%d %d", &vertices, &edges);
-
-    // Initialize the adjacency matrix and visited array
-    for (int i = 0; i < MAX_VERTICES; i++) {
-        visited[i] = false;
-        for (int j = 0; j < MAX_VERTICES; j++) {
-            adjacencyMatrix[i][j] = 0;
+    int i, j, start;
+    printf("Enter the number of vertices: ");
+    scanf("%d", &n);
+    printf("Enter the adjacency matrix:\n");
+    for (i = 1; i <= n; i++) {
+        for (j = 1; j <= n; j++) {
+            scanf("%d", &adj[i][j]);
         }
     }
-
-    // Read the edges of the graph
-    printf("Enter the edges (vertex1 vertex2):\n");
-    for (int i = 0; i < edges; i++) {
-        int vertex1, vertex2;
-        scanf("%d %d", &vertex1, &vertex2);
-        adjacencyMatrix[vertex1][vertex2] = 1;
-        adjacencyMatrix[vertex2][vertex1] = 1; // Assuming an undirected graph
-    }
-
-    int startVertex;
     printf("Enter the starting vertex for BFS: ");
-    scanf("%d", &startVertex);
+    scanf("%d", &start);
 
-    // Reset visited array for BFS
-    for (int i = 0; i < vertices; i++) {
-        visited[i] = false;
-    }
-
-    bfs(startVertex);
-    printf("\n");
+    bfs(start);
 
     return 0;
 }

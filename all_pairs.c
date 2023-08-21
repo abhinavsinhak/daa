@@ -1,9 +1,9 @@
 #include <stdio.h>
 
 #define INF 99999
-#define V 4 // Number of vertices
+#define MAX_V 10
 
-void printSolution(int dist[][V])
+void printSolution(int dist[][MAX_V], int V)
 {
     printf("Shortest distances between every pair of vertices:\n");
     for (int i = 0; i < V; i++)
@@ -19,11 +19,10 @@ void printSolution(int dist[][V])
     }
 }
 
-void floydWarshall(int graph[][V])
+void floydWarshall(int graph[][MAX_V], int V)
 {
-    int dist[V][V];
+    int dist[MAX_V][MAX_V];
 
-    // Initialize the distance matrix with the given graph
     for (int i = 0; i < V; i++)
     {
         for (int j = 0; j < V; j++)
@@ -32,7 +31,6 @@ void floydWarshall(int graph[][V])
         }
     }
 
-    // Find shortest path between all pairs of vertices
     for (int k = 0; k < V; k++)
     {
         for (int i = 0; i < V; i++)
@@ -47,18 +45,27 @@ void floydWarshall(int graph[][V])
         }
     }
 
-    printSolution(dist);
+    printSolution(dist, V);
 }
 
 int main()
 {
-    int graph[V][V] = {
-        {0, 5, INF, 10},
-        {INF, 0, 3, INF},
-        {INF, INF, 0, 1},
-        {INF, INF, INF, 0}};
+    int V;
+    printf("Enter the number of vertices: ");
+    scanf("%d", &V);
 
-    floydWarshall(graph);
+    int graph[MAX_V][MAX_V];
+
+    printf("Enter the adjacency matrix:\n");
+    for (int i = 0; i < V; i++)
+    {
+        for (int j = 0; j < V; j++)
+        {
+            scanf("%d", &graph[i][j]);
+        }
+    }
+
+    floydWarshall(graph, V);
 
     return 0;
 }
