@@ -14,9 +14,9 @@ int multiStageGraph(int graph[MAX_NODES][MAX_NODES], int stages, int nodes)
     int cost[MAX_NODES];
     int d[MAX_STAGES][MAX_NODES];
 
-    cost[nodes] = 0; // Cost of reaching the end node is 0
+    cost[nodes] = 0; 
 
-    // Calculate costs for each node
+
     for (int i = nodes - 1; i >= 1; i--)
     {
         int minCost = INT_MAX;
@@ -30,7 +30,7 @@ int multiStageGraph(int graph[MAX_NODES][MAX_NODES], int stages, int nodes)
         cost[i] = minCost;
     }
 
-    // Calculate minimum path using dynamic programming
+ 
     for (int i = 1; i <= stages; i++)
     {
         for (int j = 1; j <= nodes; j++)

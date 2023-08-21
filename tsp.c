@@ -10,7 +10,7 @@ int min(int a, int b)
 
 int tsp(int graph[MAX_CITIES][MAX_CITIES], int n, int start)
 {
-    int mask = (1 << n) - 1; // All cities except the start city
+    int mask = (1 << n) - 1; 
     int dp[MAX_CITIES][1 << MAX_CITIES];
 
     for (int i = 0; i < n; i++)

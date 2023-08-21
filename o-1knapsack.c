@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Function to find the maximum of two integers
+
 int max(int a, int b)
 {
     return (a > b) ? a : b;
 }
 
-// Function to solve 0/1 Knapsack problem using dynamic programming
 int knapSack(int W, int wt[], int val[], int n)
 {
     int dp[n + 1][W + 1];
