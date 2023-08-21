@@ -3,7 +3,6 @@
 
 bool isSubsetSum(int set[], int n, int target, int subset[], int subsetSize, int index) {
     if (target == 0) {
-        
         for (int i = 0; i < subsetSize; i++) {
             printf("%d ", subset[i]);
         }
@@ -15,7 +14,6 @@ bool isSubsetSum(int set[], int n, int target, int subset[], int subsetSize, int
         return false;
     }
 
-   
     subset[subsetSize] = set[index];
     bool include = isSubsetSum(set, n, target - set[index], subset, subsetSize + 1, index + 1);
 
@@ -25,7 +23,7 @@ bool isSubsetSum(int set[], int n, int target, int subset[], int subsetSize, int
 }
 
 void subsetSum(int set[], int n, int target) {
-    int subset[n]; 
+    int subset[n];
     bool found = isSubsetSum(set, n, target, subset, 0, 0);
 
     if (!found) {
@@ -34,9 +32,19 @@ void subsetSum(int set[], int n, int target) {
 }
 
 int main() {
-    int set[] = {10, 7, 5, 18, 12, 20, 15};
-    int n = sizeof(set) / sizeof(set[0]);
-    int target = 35;
+    int n;
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+
+    int set[n];
+    printf("Enter the array elements:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &set[i]);
+    }
+
+    int target;
+    printf("Enter the target sum: ");
+    scanf("%d", &target);
 
     subsetSum(set, n, target);
 
