@@ -1,72 +1,84 @@
 #include <stdio.h>
-int matrix[25][25], visited_cities[10], limit, cost = 0;
- 
-int tsp(int c)
+#include <limits.h>
+
+#define MAX 9999
+
+int n;
+int distan[20][20];
+int completed_visit;
+int DP[32][8];
+int optimalPath[32][8];
+
+int TSP(int mask, int curCity)
 {
- int count, nearest_city = 999;
- int minimum = 999, temp;
- for(count = 0; count < limit; count++)
- {
- if((matrix[c][count] != 0) && (visited_cities[count] == 0))
- {
- if(matrix[c][count] < minimum)
- {
- minimum = matrix[count][0] + matrix[c][count];
- }
- temp = matrix[c][count];
- nearest_city = count;
- }
- }
- if(minimum != 999)
- {
- cost = cost + temp;
- }
- return nearest_city;
+    if (mask == completed_visit)
+    {
+        return distan[curCity][0];
+    }
+    if (DP[mask][curCity] != -1)
+    {
+        return DP[mask][curCity];
+    }
+    int answer = MAX;
+    int nextCity = -1;
+
+    for (int city = 0; city < n; city++)
+    {
+        if ((mask & (1 << city)) == 0)
+        {
+            int newAnswer = distan[curCity][city] + TSP(mask | (1 << city), city);
+            if (newAnswer < answer)
+            {
+                answer = newAnswer;
+                nextCity = city;
+            }
+        }
+    }
+
+    optimalPath[mask][curCity] = nextCity;
+    return DP[mask][curCity] = answer;
 }
- 
-void minimum_cost(int city)
+
+void printPath(int mask, int curCity)
 {
- int nearest_city;
- visited_cities[city] = 1;
- printf("%d ", city + 1);
- nearest_city = tsp(city);
- if(nearest_city == 999)
- {
- nearest_city = 0;
- printf("%d", nearest_city + 1);
- cost = cost + matrix[city][nearest_city];
- return;
- }
- minimum_cost(nearest_city);
+    if (mask == completed_visit)
+        return;
+
+    int nextCity = optimalPath[mask][curCity];
+    printf("%d -> ", nextCity + 1);
+    printPath(mask | (1 << nextCity), nextCity);
 }
- 
+
 int main()
-{ 
- int i, j;
- printf("Enter Total Number of Cities:\t");
- scanf("%d", &limit);
- printf("\nEnter Cost Matrix\n");
- for(i = 0; i < limit; i++)
- {
- printf("\nEnter %d Elements in Row[%d]\n", limit, i + 1);
- for(j = 0; j < limit; j++)
- {
- scanf("%d", &matrix[i][j]);
- }
- visited_cities[i] = 0;
- }
- printf("\nEntered Cost Matrix\n");
- for(i = 0; i < limit; i++)
- {
- printf("\n");
- for(j = 0; j < limit; j++)
- {
- printf("%d ", matrix[i][j]);
- }
- }
- printf("\n\nPath:\t");
- minimum_cost(0);
- printf("\n\nMinimum Cost: \t");
- printf("%d\n", cost);
- return 0;
+{
+    printf("Enter the number of cities: ");
+    scanf("%d", &n);
+
+    completed_visit = (1 << n) - 1;
+
+    printf("Enter the distance matrix:\n");
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            scanf("%d", &distan[i][j]);
+        }
+    }
+
+    for (int i = 0; i < (1 << n); i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            DP[i][j] = -1;
+        }
+    }
+
+    int minDistance = TSP(1, 0);
+    printf("Minimum Distance Travelled -> %d\n", minDistance);
+
+    printf("Optimal Path: 1 -> ");
+    printPath(1, 0);
+    printf("1\n");
+
+    return 0;
 }

@@ -40,7 +40,7 @@ bool graphColoringUtil(int graph[MAX_V][MAX_V], int m, int color[], int vertex, 
 void graphColoring(int graph[MAX_V][MAX_V], int m, int V) {
     int color[MAX_V];
     for (int i = 0; i < V; i++) {
-        color[i] = 0; // Initialize colors
+        color[i] = 0; 
     }
 
     graphColoringUtil(graph, m, color, 0, V);
