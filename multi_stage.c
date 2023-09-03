@@ -14,8 +14,11 @@ int multiStageGraph(int graph[MAX_NODES][MAX_NODES], int stages, int nodes)
     int cost[MAX_NODES];
     int d[MAX_STAGES][MAX_NODES];
 
-    cost[nodes] = 0; 
-
+    for (int i = 1; i <= nodes; i++)
+    {
+        cost[i] = INT_MAX;
+    }
+    cost[nodes] = 0;
 
     for (int i = nodes - 1; i >= 1; i--)
     {
@@ -30,12 +33,26 @@ int multiStageGraph(int graph[MAX_NODES][MAX_NODES], int stages, int nodes)
         cost[i] = minCost;
     }
 
- 
-    for (int i = 1; i <= stages; i++)
+    for (int i = 0; i <= stages; i++)
     {
         for (int j = 1; j <= nodes; j++)
         {
             d[i][j] = INT_MAX;
+        }
+    }
+
+    for (int j = 1; j <= nodes; j++)
+    {
+        if (graph[1][j] > 0)
+        {
+            d[1][j] = graph[1][j];
+        }
+    }
+
+    for (int i = 2; i <= stages; i++)
+    {
+        for (int j = 1; j <= nodes; j++)
+        {
             for (int k = 1; k <= nodes; k++)
             {
                 if (graph[j][k] > 0)
@@ -46,7 +63,7 @@ int multiStageGraph(int graph[MAX_NODES][MAX_NODES], int stages, int nodes)
         }
     }
 
-    return d[stages][1];
+    return d[stages][nodes];
 }
 
 int main()
