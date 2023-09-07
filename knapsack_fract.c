@@ -1,66 +1,77 @@
 #include <stdio.h>
 
-void swap(double* a, double* b) {
-    double temp = *a;
-    *a = *b;
-    *b = temp;
-}
+void sort(int b[], int a[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            if ((double)a[i] / b[i] > (double)a[j] / b[j])
+            {
+                int temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
 
-void bubbleSort(double valuePerWeight[], int weight[], int value[], int n) {
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (valuePerWeight[j] < valuePerWeight[j + 1]) {
-                swap(&valuePerWeight[j], &valuePerWeight[j + 1]);
-                swap(&weight[j], &weight[j + 1]);
-                swap(&value[j], &value[j + 1]);
+                temp = b[i];
+                b[i] = b[j];
+                b[j] = temp;
             }
         }
     }
 }
 
-double fractionalKnapsack(int W, int weight[], int value[], int n) {
-    double valuePerWeight[n];
-    for (int i = 0; i < n; i++) {
-        valuePerWeight[i] = (double)value[i] / weight[i];
+void greedy(int a[], int b[], int m, int n, double ans[])
+{
+    for (int i = 0; i < n; i++)
+    {
+        ans[i] = 0.0;
     }
 
-    bubbleSort(valuePerWeight, weight, value, n);
+    int u = m;
+    int i;
 
-    int currentWeight = 0;
-    double finalValue = 0.0;
-
-    for (int i = 0; i < n; i++) {
-        if (currentWeight + weight[i] <= W) {
-            currentWeight += weight[i];
-            finalValue += value[i];
-        } else {
-            int remainingWeight = W - currentWeight;
-            finalValue += (double)remainingWeight * valuePerWeight[i];
+    for (i = 0; i < n; i++)
+    {
+        if (a[i] > u)
+        {
             break;
         }
+        ans[i] = 1.0;
+        u -= a[i];
     }
 
-    return finalValue;
+    if (i < n)
+    {
+        ans[i] = (double)u / a[i];
+    }
 }
 
-int main() {
-    int W;
-    printf("Enter the capacity of the knapsack: ");
-    scanf("%d", &W);
-
+int main()
+{
     int n;
-    printf("Enter the number of items: ");
+    int b[10], a[10];
+
+    printf("enter the no of item\n");
     scanf("%d", &n);
-
-    int weight[n];
-    int value[n];
-    printf("Enter the weight and value of each item:\n");
-    for (int i = 0; i < n; i++) {
-        scanf("%d %d", &weight[i], &value[i]);
+    printf("enter the value of item");
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &b);
     }
+    printf("enter the weight of item");
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &a);
+    }
+    double ans[n];
 
-    double maxValue = fractionalKnapsack(W, weight, value, n);
-    printf("Maximum value that can be obtained is: %.2lf\n", maxValue);
+    sort(b, a, n);
+    greedy(a, b, 50, n, ans);
+
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d - %d - %.2f\n", b[i], a[i], ans[i]);
+    }
 
     return 0;
 }
