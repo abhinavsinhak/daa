@@ -62,7 +62,7 @@ void unionSets(int parent[], int x, int y) {
 }
 
 void kruskalMST(struct Edge edges[], int n, int m) {
-    sortEdges(edges, m);
+    heapSort(edges, m);
 
     int parent[n];
     for (int i = 0; i < n; i++) {
@@ -99,7 +99,6 @@ int main() {
         scanf("%d %d %d", &edges[i].src, &edges[i].dest, &edges[i].weight);
     }
 
-    heapSort(edges, m);
     kruskalMST(edges, n, m);
 
     return 0;
