@@ -13,8 +13,8 @@ int shortestDist(int graph[N][N])
         for (int j = i; j < N; j++) 
         {   if (graph[i][j] == INF)
                 continue;
-            dist[i] = (dist[i] < graph[i][j] +                dist[j]) ? dist[i] :
-                                                             graph[i][j] + dist[j];
+            dist[i] = (dist[i] < graph[i][j] +                     dist[j]) ? dist[i] :
+                                                                   graph[i][j] + dist[j];
         }
     }
     return dist[0];
